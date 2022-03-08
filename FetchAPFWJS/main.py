@@ -12,12 +12,11 @@ def home():
     repo = "apfw"
     url = "https://api.github.com/repos/{}/{}/tags".format(user,repo)
     #url = "https://github.com/mistsys/apfw/tags"
-    #headers = {'Authorization': 'token {}'.format(token)}
     headers = {
         'authorization': 'token {}'.format(token)
     }
     r = requests.get(url,headers=headers)
-    #print(type(r.text))
+
     str = r.text.encode('ascii','ignore')
     #print(str)
     js = json.loads(str)
