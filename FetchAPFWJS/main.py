@@ -1,7 +1,6 @@
 from flask import Flask,render_template,jsonify
 import requests
 import json
-from unicodedata import normalize
 
 app = Flask(__name__)
 
@@ -12,21 +11,21 @@ def home():
     repo = "apfw"
     url = "https://api.github.com/repos/{}/{}/tags".format(user,repo)
     #url = "https://github.com/mistsys/apfw/tags"
+
     headers = {
         'authorization': 'token {}'.format(token)
     }
     r = requests.get(url,headers=headers)
 
-    str = r.text.encode('ascii','ignore')
-    #print(str)
-    js = json.loads(str)
-    print(type(js))
+    js = r.json()
+    #print(type(js))
+    #print(js)
     for tag in js:
-        print(type(tag))
-        print(tag['name'])
-    print(type(jsonify(js)))
-    return jsonify(js)
+        #print(type(tag))
+        #print(tag['name']+' '+tag['zipball_url'])
+        print(tag)
 
+    return jsonify(js)
 
 
 if __name__ == '__main__':
