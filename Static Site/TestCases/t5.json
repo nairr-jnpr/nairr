@@ -1,8 +1,18 @@
 {
-    "suite": "sanity",
-    "label": "0.13.163",
-    "created": 1611122280.9942999,
-    "duration": 0.01945209503173828,
-    "total test" : 10,
-    "passed": 10
+    "labels":[
+        {
+            "label":"0.12.1", 
+            "total_test":10, 
+            "passed":5, 
+            "failed":5, 
+            "logs": "allure.html"
+        },
+        {
+            "label":"0.12.4", 
+            "total_test":8, 
+            "passed":5, 
+            "failed":3, 
+            "logs": "allure124.html"
+        }
+    ]
 }
