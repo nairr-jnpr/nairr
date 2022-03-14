@@ -13,11 +13,17 @@
             <th class="table__cell">{{ header }}</th>
             {% endfor %}
         </tr>
-        {% for row in rows %}
+        {% for label,vals in rows.items() %}
         <tr class="table__row">
-            {% for ele in row %}
-            <td class="table__cell">{{ ele }}</td>
-            {% endfor %}
+            <td class="table__cell">
+                <a href="{{ url_for('details',label=label) }}">{{ label }}</a>
+            </td>
+            <td class="table__cell">
+                <a href="{{ url_for('details',label=label) }}">{{ vals.total_test }}</a>
+            </td>
+            <td class="table__cell">
+                <a href="{{ url_for('details',label=label) }}">{{ vals.passed }}</a>
+            </td>
         </tr>
         {% endfor%}
     </table>
