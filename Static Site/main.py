@@ -2,8 +2,8 @@ from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
-params = []
-headers = ['Label', 'Total Tests', 'Passed', 'Failed']
+headers=['Label','Total Tests','Passed']
+rows = {}
 
 @app.route('/')
 def home():
@@ -11,43 +11,26 @@ def home():
 
 @app.route('/json', methods=['POST'])
 def json():
-
+    global rows
+    rows = {}
     req = request.get_json()
-    print(req)
-    global params
-    global headers
-    #params = [req['label'], req['total test'], req['passed'], req['failed']]
-
-    try:
-        label = req['label']
-    except:
-        label = '0.0.0'
-    try:
-        tot = req['total test']
-    except:
-        tot = '0'
-
-    try:
-        pasd = req['passed']
-    except:
-        pasd = '0'
-
-    try:
-        fails = req['failed']
-    except:
-        fails = '0'
-
-    params = [label,tot,pasd,fails]
-
-    return "Json posted"
+    for row in req['labels']:
+        rows[row['label']] = {'total_test':row['total_test'],
+                              'passed':row['passed'],
+                              'failed':row['failed'],
+                              'logs':row['logs']
+                              }
+    return 'Json posted'
 
 
-@app.route('/table')
-def table():
-    if len(params)>0:
-        return render_template('table.html',params=params, headers=headers)
-    else:
-        return render_template('table.html',params=['0.0.0',0,0,0],headers=headers)
+@app.route('/overview')
+def overview():
+    return render_template('overview.html',rows=rows,headers=headers)
+
+@app.route('/details/<label>')
+def details(label):
+    params = [label,rows[label]['total_test'],rows[label]['passed'],rows[label]['failed'],rows[label]['logs']]
+    return render_template('table.html',Label=label,params=params)
 
 if __name__=='__main__':
     app.run(debug=True)
